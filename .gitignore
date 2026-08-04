@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.Python
+*.egg
+
+# Testing / linting
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Project data / artifacts (never commit downloaded data, caches, models, reports)
+data/
+artifacts/
+!tests/fixtures/**
+
+# Local config overrides (may contain machine-specific paths)
+configs/markets.local.yml
+configs/*.local.yml
+
+# Environment / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
