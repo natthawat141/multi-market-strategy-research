@@ -19,6 +19,7 @@ htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
+notebooks/*.png
 
 # Project data / artifacts (never commit downloaded data, caches, models, reports)
 data/

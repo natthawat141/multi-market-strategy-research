@@ -1,0 +1,125 @@
+# FRTBOT market and FX configuration (SPEC.md section 2).
+#
+# `mode` is the SPEC.md section 3 data mode:
+#   stock    - point-in-time stock universe available and validated (not used in v0.1 M0-M2)
+#   proxy    - country index/ETF proxy used because stock-level history is incomplete
+#   disabled - data quality checks failed; market excluded with a visible reason
+#
+# Every provider_symbol here was chosen as a reasonable, freely accessible public
+# proxy for the SPEC.md section 2 market row. Exact reachability via yfinance is
+# verified by `frtbot.data.provider` at download time and recorded in the data
+# audit (M2) — a market that fails validation is marked `disabled`, never silently
+# swapped for mock data (SPEC.md section 3).
+#
+# This file is a copy-and-adjust example; local overrides belong in
+# configs/markets.local.yml (gitignored), not here.
+
+base_currency: THB
+
+markets:
+  - key: US
+    name: "United States (S&P 500 proxy)"
+    mode: proxy
+    currency: USD
+    timezone: "America/New_York"
+    exchange_calendar: XNYS
+    provider: yfinance
+    provider_symbol: "SPY"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: USDTHB
+    notes: "SPDR S&P 500 ETF Trust, USD, dividend-adjusted close approximates S&P 500 total return."
+
+  - key: EU
+    name: "Europe (STOXX Europe 600 proxy)"
+    mode: proxy
+    currency: EUR
+    timezone: "Europe/Berlin"
+    exchange_calendar: XETR
+    provider: yfinance
+    provider_symbol: "EXSA.DE"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: EURTHB
+    notes: "iShares STOXX Europe 600 UCITS ETF (Xetra), EUR, dividend-adjusted close."
+
+  - key: JP
+    name: "Japan (TOPIX proxy)"
+    mode: proxy
+    currency: JPY
+    timezone: "Asia/Tokyo"
+    exchange_calendar: XTKS
+    provider: yfinance
+    provider_symbol: "1306.T"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: JPYTHB
+    notes: "Nomura TOPIX Exchange Traded Fund (Tokyo Stock Exchange), JPY."
+
+  - key: CN
+    name: "China (CSI 300 A-share proxy)"
+    mode: proxy
+    currency: CNY
+    timezone: "Asia/Shanghai"
+    exchange_calendar: XSHG
+    provider: yfinance
+    provider_symbol: "510300.SS"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: CNYTHB
+    notes: >
+      Huatai-PineBridge CSI 300 ETF (Shanghai Stock Exchange), CNY, mainland
+      A-shares only per SPEC.md section 2 (not a blended/HK China universe).
+
+  - key: TH
+    name: "Thailand (SET50 proxy)"
+    mode: proxy
+    currency: THB
+    timezone: "Asia/Bangkok"
+    exchange_calendar: XBKK
+    provider: yfinance
+    provider_symbol: "TDEX.BK"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: null
+    notes: >
+      1DEX SET50 ETF (The Stock Exchange of Thailand), THB. THB is already the
+      base currency so no FX conversion is required for this market.
+
+fx:
+  - pair: USDTHB
+    base_currency: USD
+    quote_currency: THB
+    provider: yfinance
+    provider_symbol: "USDTHB=X"
+    timezone: "America/New_York"
+
+  - pair: EURTHB
+    base_currency: EUR
+    quote_currency: THB
+    provider: yfinance
+    provider_symbol: "EURTHB=X"
+    timezone: "Europe/Berlin"
+
+  - pair: JPYTHB
+    base_currency: JPY
+    quote_currency: THB
+    provider: yfinance
+    provider_symbol: "JPYTHB=X"
+    timezone: "Asia/Tokyo"
+
+  - pair: CNYTHB
+    base_currency: CNY
+    quote_currency: THB
+    provider: yfinance
+    provider_symbol: "THBCNY=X"
+    invert: true
+    timezone: "Asia/Shanghai"
+    notes: >
+      yfinance has no direct CNYTHB=X quote; THBCNY=X (verified reachable) is
+      fetched and inverted (1/rate) to reach the declared CNY->THB convention.

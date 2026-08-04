@@ -1,0 +1,52 @@
+# FRTBOT research-run configuration (SPEC.md sections 8-11).
+
+base_currency: THB
+horizon_trading_days: 21
+
+# Documented modeling assumption for the unallocated-cash / risk-free leg
+# (SPEC.md section 9.1 "cash proxy"). This is a parameter, not a downloaded
+# market series, and is reported as such in every backtest output. Default is
+# an approximate long-run THB short-term deposit/T-bill rate.
+cash_annual_rate: 0.0125
+
+seed: 42
+
+walk_forward:
+  train_years: 8
+  val_years: 2
+  test_years: 1
+  step_years: 1
+  min_train_years: 3
+  embargo_days: 21
+
+portfolio:
+  max_country_weight: 0.40
+  top_n_countries: 3
+  vol_lookback_days: 63
+  cash_key: CASH_THB
+
+# Frozen ensemble formula (SPEC.md section 8.4) - fixed research starting
+# weights, not optimized on any test set.
+ensemble:
+  tree_weight: 0.40
+  mlp_weight: 0.30
+  trend_weight: 0.30
+
+# Per-side bps cost assumptions by scenario and instrument class (SPEC.md
+# section 10). Applied to absolute position turnover.
+costs:
+  country_proxy:
+    zero: 0
+    optimistic: 5
+    base: 10
+    severe: 25
+  developed_stock:
+    zero: 0
+    optimistic: 10
+    base: 25
+    severe: 50
+  emerging_stock:
+    zero: 0
+    optimistic: 20
+    base: 50
+    severe: 100

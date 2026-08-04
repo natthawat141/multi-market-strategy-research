@@ -1,0 +1,102 @@
+# SYNTHETIC fixture market config used only by the test suite. Mirrors the
+# shape of configs/markets.example.yml but points every entry at the
+# committed deterministic synthetic parquet fixtures instead of a live
+# provider (SPEC.md section 3: mock data is allowed only in tests, and must
+# be labelled SYNTHETIC - see tests/fixtures/generate_synthetic_fixtures.py).
+
+base_currency: THB
+
+markets:
+  - key: US
+    name: "Synthetic US proxy"
+    mode: proxy
+    currency: USD
+    timezone: "America/New_York"
+    exchange_calendar: XNYS
+    provider: fixture
+    provider_symbol: "US"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: USDTHB
+
+  - key: EU
+    name: "Synthetic Europe proxy"
+    mode: proxy
+    currency: EUR
+    timezone: "Europe/Berlin"
+    exchange_calendar: XETR
+    provider: fixture
+    provider_symbol: "EU"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: EURTHB
+
+  - key: JP
+    name: "Synthetic Japan proxy"
+    mode: proxy
+    currency: JPY
+    timezone: "Asia/Tokyo"
+    exchange_calendar: XTKS
+    provider: fixture
+    provider_symbol: "JP"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: JPYTHB
+
+  - key: CN
+    name: "Synthetic China proxy"
+    mode: proxy
+    currency: CNY
+    timezone: "Asia/Shanghai"
+    exchange_calendar: XSHG
+    provider: fixture
+    provider_symbol: "CN"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: CNYTHB
+
+  - key: TH
+    name: "Synthetic Thailand proxy"
+    mode: proxy
+    currency: THB
+    timezone: "Asia/Bangkok"
+    exchange_calendar: XBKK
+    provider: fixture
+    provider_symbol: "TH"
+    price_type: adjusted_close
+    adjustment_type: split_dividend_adjusted
+    instrument_class: country_proxy
+    fx_pair: null
+
+fx:
+  - pair: USDTHB
+    base_currency: USD
+    quote_currency: THB
+    provider: fixture
+    provider_symbol: "USDTHB"
+    timezone: "America/New_York"
+
+  - pair: EURTHB
+    base_currency: EUR
+    quote_currency: THB
+    provider: fixture
+    provider_symbol: "EURTHB"
+    timezone: "Europe/Berlin"
+
+  - pair: JPYTHB
+    base_currency: JPY
+    quote_currency: THB
+    provider: fixture
+    provider_symbol: "JPYTHB"
+    timezone: "Asia/Tokyo"
+
+  - pair: CNYTHB
+    base_currency: CNY
+    quote_currency: THB
+    provider: fixture
+    provider_symbol: "CNYTHB"
+    timezone: "Asia/Shanghai"
