@@ -46,6 +46,10 @@ python scripts/build_notebooks.py
 
 # 6. Run the full multi-fold walk-forward backtest report to the console
 python scripts/run_full_backtest.py
+
+# 7. Export the detailed local evidence bundle and canonical report artifact
+python scripts/export_detailed_backtest.py
+python scripts/build_detailed_report_artifact.py
 ```
 
 Steps 5-6 download real daily data via `yfinance` into the local, gitignored `data/`
@@ -141,6 +145,14 @@ trusting `1306.T` (or any single free-tier feed) unattended.
   frozen 8y-train/2y-val/1y-test/1y-step config from `configs/research.yml` — this is
   the actual production window, not a reduced smoke config) and stitches the
   consecutive out-of-sample test segments into one continuous multi-year result.
+- `scripts/export_detailed_backtest.py` — re-runs all folds and writes the complete
+  local evidence bundle under `artifacts/detailed_report/data/`: daily strategy and
+  benchmark returns, weights, fold/model metrics, audit rows, feature inventory, and
+  the full modeling panel. It also adds equal-weight, cash, and per-market buy-and-hold
+  comparisons without changing the frozen FRTBOT strategy.
+- `scripts/build_detailed_report_artifact.py` — converts those reviewed exports into
+  the canonical Data Analytics `artifact.json` used to build the self-contained Thai
+  technical report. Generated report/data files remain gitignored and local-only.
 
 Last run of `scripts/run_full_backtest.py` (4 usable markets after the JP data-quality
 exclusion above; continuous out-of-sample period 2022-06-01 to 2026-07-30, 1084 trading
